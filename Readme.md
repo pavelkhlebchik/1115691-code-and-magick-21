@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Кольцов](https://up.htmlacademy.ru/javascript/21/user/1115691).
-* Наставник: `Неизвестно`.
+* Наставник: [Богдан Звягинцев](https://htmlacademy.ru/profile/id52757).
 
 ---
 
