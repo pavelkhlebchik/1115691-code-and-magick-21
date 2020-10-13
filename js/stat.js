@@ -8,11 +8,22 @@ const SHADOW_GAP = 10;
 const GAP = 50;
 const BAR_WIDTH = 40;
 const TEXT_HEIGHT = 25;
-const barHeight = -CLOUD_HEIGHT + GAP;
+const barHeight = -CLOUD_HEIGHT + (GAP * 3) + TEXT_HEIGHT;
 
 const renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
+
+const renderText = function (ctx, color, font, text, x, y) {
+  ctx.fillStyle = color;
+  ctx.font = font;
+  ctx.fillText(text, x, y);
+};
+
+const getRandomHsla = function () {
+  const randomNum = (Math.random() * (1 - 0.1) + 0.1).toFixed(1);
+  return randomNum;
 };
 
 const getMaxElement = function (arr) {
@@ -40,24 +51,57 @@ window.renderStatistics = function (ctx, players, times) {
       `#fff`
   );
 
+  renderText(
+      ctx,
+      `#606060`,
+      `16px, PT Mono`,
+      `Ура вы победили!`,
+      CLOUD_X + GAP,
+      GAP
+  );
+
+  renderText(
+      ctx,
+      `#606060`,
+      `16px, PT Mono`,
+      `Список результатов:`,
+      CLOUD_X + GAP,
+      GAP * 1.5
+  );
+
   let maxTime = getMaxElement(times);
 
   for (let i = 0; i < players.length; i++) {
-    ctx.fillStyle = `rgba(255, 0, 0, 1)`;
-    ctx.fillText(
+
+    renderText(
+        ctx,
+        `#606060`,
+        `16px, PT Mono`,
         players[i],
         CLOUD_X + GAP + (BAR_WIDTH + GAP) * i,
         CLOUD_HEIGHT - SHADOW_GAP
     );
+
+    if (players[i] === `Вы`) {
+      ctx.fillStyle = `rgba(255, 0, 0, 1)`;
+    } else {
+      ctx.fillStyle = `hsla(240, 100%, 50%,` + getRandomHsla() + `)`;
+    }
+
     ctx.fillRect(
         CLOUD_X + GAP + (BAR_WIDTH + GAP) * i,
         CLOUD_HEIGHT - SHADOW_GAP - TEXT_HEIGHT,
         BAR_WIDTH,
-        (barHeight * times[i]) / maxTime
+        ((barHeight * times[i]) / maxTime)
     );
-    // тут я пытался выделить цветом результат пользователя "Вы"
-    // if (players.length === 2) {
-    //   ctx.fillStyle = `rgba(0, 0, 255, 1)`;
-    // }
+
+    renderText(
+        ctx,
+        `#606060`,
+        `16px, PT Mono`,
+        Math.round(times[i], 1),
+        CLOUD_X + GAP + (BAR_WIDTH + GAP) * i,
+        (CLOUD_HEIGHT - SHADOW_GAP - TEXT_HEIGHT) + ((barHeight * times[i]) / maxTime) - TEXT_HEIGHT
+    );
   }
 };
