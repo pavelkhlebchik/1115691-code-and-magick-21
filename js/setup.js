@@ -31,16 +31,16 @@ const generateWizards = function () {
 
 const wizardsList = generateWizards();
 
+const createWizardTemplate = function (wizard) {
+  const wizardElement = wizardTemplate.cloneNode(true);
+  wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
+  wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
+  wizardElement.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
+
+  return wizardElement;
+};
+
 const renderWizards = function () {
-  const createWizardTemplate = function (wizard) {
-    const wizardElement = wizardTemplate.cloneNode(true);
-    wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
-    wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
-    wizardElement.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
-
-    return wizardElement;
-  };
-
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < wizardsList.length; i++) {
     fragment.appendChild(createWizardTemplate(wizardsList[i]));
