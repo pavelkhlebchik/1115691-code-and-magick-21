@@ -5,10 +5,11 @@ const WIZARD_SURNAME = [`да Марья`, `Верон`, `Ирвинг`, `Нио
 const COAT_COLOR = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
 const EYES_COLOR = [`black`, `red`, `blue`, `yellow`, `green`];
 
-const showTable = document.querySelector(`.setup`);
-showTable.classList.remove(`hidden`);
+const setup = document.querySelector(`.setup`);
+const setupOpen = document.querySelector(`.setup-open`);
+const setupClose = setup.querySelector(`.setup-close`);
 
-const showWizardsList = showTable.querySelector(`.setup-similar-list`);
+const showWizardsList = setup.querySelector(`.setup-similar-list`);
 
 const wizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content;
@@ -52,4 +53,31 @@ const renderWizards = function () {
 generateWizards();
 renderWizards();
 
-showTable.querySelector(`.setup-similar`).classList.remove(`hidden`);
+setup.querySelector(`.setup-similar`).classList.remove(`hidden`);
+
+const onPopupEscPress = function (evt) {
+  if (evt.key === `Escape`) {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+const openPopup = function () {
+  setup.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, onPopupEscPress);
+};
+
+const closePopup = function () {
+  setup.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, onPopupEscPress);
+};
+
+setupOpen.addEventListener(`click`, function () {
+  openPopup();
+});
+
+setupClose.addEventListener(`click`, function () {
+  closePopup();
+});
