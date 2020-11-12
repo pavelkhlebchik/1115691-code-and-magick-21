@@ -63,9 +63,12 @@ const onPopupEscPress = function (evt) {
   }
 };
 
-const inputFocus = function () {
+const inputNameFocus = function () {
   setupUserName.addEventListener(`focus`, function () {
     document.removeEventListener(`keydown`, onPopupEscPress);
+  });
+  setupUserName.addEventListener(`blur`, function () {
+    document.addEventListener(`keydown`, onPopupEscPress);
   });
 };
 
@@ -81,7 +84,7 @@ const closePopup = function () {
 
 setupOpen.addEventListener(`click`, function () {
   openPopup();
-  inputFocus();
+  inputNameFocus();
 });
 
 setupClose.addEventListener(`click`, function () {
@@ -93,35 +96,21 @@ const userWizardEyes = setup.querySelector(`.setup-wizard .wizard-eyes`);
 const userWizardFireball = setup.querySelector(`.setup-fireball-wrap`);
 
 const selectWizardCoatColor = function () {
+  const coatColorName = setup.querySelector(`input[name="coat-color"]`);
 
-  const coatColor = [
-    `rgb(101, 137, 164)`,
-    `rgb(241, 43, 107)`,
-    `rgb(146, 100, 161)`,
-    `rgb(56, 159, 117)`,
-    `rgb(215, 210, 55)`,
-    `rgb(0, 0, 0)`
-  ];
-
-  userWizardCoat.style.fill = `${getRandomValue(coatColor)}`;
-  // const inputCoat = setup.querySelector(`input[name="coat-color"]`);
-
+  userWizardCoat.style.fill = `${getRandomValue(COAT_COLOR)}`;
+  coatColorName.value = userWizardCoat.style.fill;
 };
 
 userWizardCoat.addEventListener(`click`, selectWizardCoatColor);
 
 const selectWizardEyesColor = function () {
+  const eyesColorName = setup.querySelector(`input[name="eyes-color"]`);
 
-  const eyesColor = [
-    `black`,
-    `yellow`,
-    `red`,
-    `blue`,
-    `green`,
-  ];
-  userWizardEyes.style.fill = `${getRandomValue(eyesColor)}`;
-
+  userWizardEyes.style.fill = `${getRandomValue(EYES_COLOR)}`;
+  eyesColorName.value = userWizardEyes.style.fill;
 };
+
 userWizardEyes.addEventListener(`click`, selectWizardEyesColor);
 
 const selectWizardFireballColor = function () {
@@ -133,8 +122,10 @@ const selectWizardFireballColor = function () {
     `#e6e848`
   ];
 
-  userWizardFireball.style.backgroundColor = `${getRandomValue(fireballColor)}`;
+  const fireballColorName = setup.querySelector(`input[name="fireball-color"]`);
+  fireballColorName.value = `${getRandomValue(fireballColor)}`;
+  userWizardFireball.style.backgroundColor = fireballColorName.value;
+
 };
 
 userWizardFireball.addEventListener(`click`, selectWizardFireballColor);
-
